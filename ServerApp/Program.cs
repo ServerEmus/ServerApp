@@ -1,7 +1,5 @@
 using ModdableWebServer.Helper;
 using NetCoreServer;
-using Serilog;
-using Serilog.Events;
 using ServerShared.CommonModels;
 using ServerShared.Controllers;
 using Shared;
@@ -9,66 +7,13 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
 namespace ServerApp;
-
 internal class Program
 {
+    public static Settings ServerAppSettings = JsonController.Read<Settings>("ServerAppSettings.json");
     static void Main(string[] args)
     {
-        Settings ServerAppSettings = JsonController.Read<Settings>("ServerAppSettings.json");
-        if (args.Contains("example"))
-        {
-            ServerAppSettings.Servers.Add(new()
-            {
-                Name = "MainWeb",
-                Port = 80,
-            });
-            ServerAppSettings.Servers.Add(new()
-            {
-                Name = "MainWebSSL",
-                Port = 443,
-                UseCerts = true
-            });
-            ServerAppSettings.CertDetails.Add(new()
-            {
-                Name = "UbisoftCert",
-                Password = "ServerEmus"
-            });
-            ServerAppSettings.CertDetails.Add(new()
-            {
-                Name = "ServerEmusPFX",
-                Password = "ServerEmus"
-            });
-            JsonController.Save(ServerAppSettings, "ServerAppSettings.json");
-            return;
-        }
         MainLogger.CreateNew();
-        if (args.Contains("clean"))
-        {
-            // Deleting all files and the database too.
-            foreach (var logfile in Directory.GetFiles(Environment.CurrentDirectory, "*.log", SearchOption.AllDirectories))
-                File.Delete(logfile);
-            Directory.Delete("Database", true);
-        }
-        if (args.Contains("debug"))
-        {
-            // Verbose expose MWS to us. we using DEBUG.
-            MainLogger.LevelSwitch.MinimumLevel = LogEventLevel.Debug;
-            MainLogger.ConsoleLevelSwitch.MinimumLevel = LogEventLevel.Debug;
-            MainLogger.FileLevelSwitch.MinimumLevel = LogEventLevel.Debug;
-        }
-        if (args.Contains("verbose"))
-        {
-            MainLogger.LevelSwitch.MinimumLevel = LogEventLevel.Verbose;
-            MainLogger.ConsoleLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
-            MainLogger.FileLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
-        }
-
-        if (!Directory.Exists("Cert") && ServerAppSettings.Servers.Any(x => x.UseCerts = true))
-        {
-            Log.Error("You have not created a 'Cert' folder to include your certificates, but your settings have to user cert. Please make a 'Cert' directory and install any certificate!");
-            return;
-        }
-
+        ArgProcess.Process(args);
         X509Certificate2Collection Collection = [];
         foreach (var cert in Directory.GetFiles("Cert"))
         {
@@ -87,7 +32,7 @@ internal class Program
             var keyName = Path.Combine("Cert", $"{name}.key");
             Collection.Add(CertHelper.GetCertPem(cert, keyName));
         }
-        SslContext context = new(SslProtocols.Tls12, Collection, CertHelper.NoCertificateValidator);
+        SslContext context = new(SslProtocols.Tls12, Collection, new(CertHelper.NoCertificateValidator));
 
         List<ServerModel> servers = [];
 

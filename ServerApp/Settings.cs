@@ -6,6 +6,7 @@ internal class Settings
     {
         public string Name { get; set; } = string.Empty;
         public int Port { get; set; }
+        public bool UseUDP { get; set; } = false;
         public bool UseCerts { get; set; }
     }
 
