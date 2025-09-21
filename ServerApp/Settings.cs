@@ -15,6 +15,8 @@ internal class Settings
         public string Name { get; set; } = string.Empty;
 
         public string Password { get; set; } = string.Empty;
+
+        public bool IsMainCert { get; set; }
     }
 
     public List<Server> Servers { get; set; } = [];
