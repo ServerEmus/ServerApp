@@ -9,6 +9,8 @@ internal static class CertLoader
 {
     public static void Load()
     {
+        if (!Directory.Exists("Cert"))
+            Directory.CreateDirectory("Cert");
         foreach (var cert in Directory.GetFiles("Cert", "*.*", SearchOption.AllDirectories))
         {
             if (cert.EndsWith(".key"))
