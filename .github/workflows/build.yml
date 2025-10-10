@@ -2,37 +2,24 @@ name: Build
 
 on:
   push:
-    branches: [ "main" ]
+    paths-ignore:
+      - '.github/*'
+      - '*.md'
+      - "*.yml"
   pull_request:
-    branches: [ "main" ]
+    paths-ignore:
+      - '.github/*'
+      - '*.md'
+      - "*.yml"
   workflow_dispatch:
-# allow manual trigger
-
-env:
-  ProjName: ServerApp
+    # allow manual trigger
 
 jobs:
   build:
-    runs-on: windows-latest
     permissions:
       packages: read
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-
-    - name: Add GitHub NuGet Source
-      run: dotnet nuget add source https://nuget.pkg.github.com/ServerEmus/index.json --name "github" --username "any" --password ${{ secrets.GITHUB_TOKEN  }} --store-password-in-clear-text
-
-    - name: Build
-      run: dotnet build ${{ env.ProjName }}/${{ env.ProjName }}.csproj -o Out
-
-    - name : Upload
-      uses: actions/upload-artifact@v4.3.5
-      with:
-        name: ${{ env.ProjName }}
-        path: Out/*
+    uses: ServerEmus/workflows/.github/workflows/build.yml@main
+    with:
+      ProjName: ServerApp
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN   }}

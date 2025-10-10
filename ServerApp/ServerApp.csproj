@@ -8,12 +8,12 @@
 		<Authors>ServerEmus;Detanup01</Authors>
 		<Company>ServerEmus</Company>
 		<Copyright>$(Company)</Copyright>
-		<Version>0.0.2</Version>
+		<Version>0.0.3</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ServerEmus.ServerShared" Version="0.0.8" />
+		<PackageReference Include="ServerEmus.ServerShared" Version="0.0.10" />
 	</ItemGroup>
 </Project>

@@ -65,12 +65,12 @@ public static class ArgProcess
         });
         Program.ServerAppSettings.CertDetails.Add(new()
         {
-            Name = "UbisoftCert",
+            Name = "ServerEmusPFX",
             Password = "ServerEmus"
         });
         Program.ServerAppSettings.CertDetails.Add(new()
         {
-            Name = "ServerEmusPFX",
+            Name = "UbisoftCert",
             Password = "ServerEmus"
         });
         JsonController.Save(Program.ServerAppSettings, "ServerAppSettings.json");
