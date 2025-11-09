@@ -2,6 +2,7 @@ using Serilog;
 using ServerShared.CommonModels;
 using ServerShared.Controllers;
 using Shared;
+using System.Collections.ObjectModel;
 
 namespace ServerApp;
 internal class Program
@@ -13,7 +14,7 @@ internal class Program
         ArgProcess.Process(args);
         CertLoader.Load();
 
-        List<ServerModel> servers = [];
+        Collection<ServerModel> servers = [];
 
         foreach (var server in ServerAppSettings.Servers)
         {
