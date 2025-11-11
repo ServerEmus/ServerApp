@@ -5,6 +5,7 @@ using Shared;
 using System.Collections.ObjectModel;
 
 namespace ServerApp;
+
 internal class Program
 {
     public static Settings ServerAppSettings = JsonController.Read<Settings>("ServerAppSettings.json");

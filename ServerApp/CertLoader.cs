@@ -11,6 +11,7 @@ internal static class CertLoader
     {
         if (!Directory.Exists("Cert"))
             Directory.CreateDirectory("Cert");
+
         foreach (var cert in Directory.GetFiles("Cert", "*.*", SearchOption.AllDirectories))
         {
             if (cert.EndsWith(".key"))

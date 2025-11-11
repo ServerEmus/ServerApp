@@ -2,18 +2,18 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<Authors>ServerEmus;Detanup01</Authors>
 		<Company>ServerEmus</Company>
 		<Copyright>$(Company)</Copyright>
-		<Version>0.0.3</Version>
+		<Version>0.0.4</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ServerEmus.ServerShared" Version="0.0.12" />
+		<PackageReference Include="ServerEmus.ServerShared" Version="0.0.13" />
 	</ItemGroup>
 </Project>
